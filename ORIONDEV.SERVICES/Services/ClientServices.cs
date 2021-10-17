@@ -16,9 +16,11 @@ namespace ORIONDEV.SERVICES.Services
     public class ClientServices : ServicesBase<Client>, IClientServices
     {
         readonly IMapper mapper;
-        public ClientServices(IBaseRepository<Client> repository, IMapper _mapper) : base(repository)
+        readonly IBaseRepository<ClientAdress> clientadress;
+        public ClientServices(IBaseRepository<Client> repository, IBaseRepository<ClientAdress> _clientadress,IMapper _mapper) : base(repository)
         {
             mapper = _mapper;
+            clientadress = _clientadress;
 
         }
         public override int Create(Client entity)
@@ -54,6 +56,29 @@ namespace ORIONDEV.SERVICES.Services
                 };
 
                 return pagination;
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+        }
+
+        public void CreateClient(ClientClientAdress dto)
+        {
+            try
+            {
+                var idClient = base.Create(new Client() { 
+                    Name = dto.Name,
+                    IdCompany = dto.IdCompany
+                });
+
+                foreach (var item in dto.ClientAdressList)
+                {
+                    clientadress.Create(new ClientAdress() { 
+                      IdCliente = idClient,
+                      Adress = item.Adress
+                    });
+                }
             }
             catch (Exception ex)
             {

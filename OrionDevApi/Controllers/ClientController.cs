@@ -31,5 +31,12 @@ namespace OrionDevApi.Controllers
         {
             return Ok(services.GetPaged(filter));
         }
+        [HttpPost]
+        [Route("CreateClient")]
+        public ActionResult CreateClient(ClientClientAdress dto)
+        {
+            services.CreateClient(dto);
+            return Ok();
+        }
     }
 }

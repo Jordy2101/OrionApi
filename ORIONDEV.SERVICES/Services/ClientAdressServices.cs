@@ -38,7 +38,7 @@ namespace ORIONDEV.SERVICES.Services
                 var data = base.FindAll().Where(c=> c.IdCliente == filter.IdClient);
                 var list = mapper.ProjectTo<ClientAdressDto>(data);
                 var result = PagedList<ClientAdressDto>.Create(list, filter.PageNumber, filter.PageSize);
-                if (result == null) { throw new ArgumentException("No existen registros con los parametros de busqueda"); }
+                if (result == null) { throw new ArgumentException("Este cliente no tiene direcciones"); }
                 var pagination = new
                 {
                     totalCount = result.TotalCount,
